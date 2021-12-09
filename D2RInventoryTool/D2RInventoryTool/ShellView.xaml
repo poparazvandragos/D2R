@@ -56,6 +56,8 @@
                     CTRL + ALT + NumPad.Plus = Auto Capture Screenshot for Player(inventory + stash) or Mercenary
                     <LineBreak/>
                     CTRL + ALT + NumPad.Multiply = Change capture between Player and Mercenary
+                    <LineBreak/>
+                    CTRL + ALT + NumPad.Divide = Stop Capture process
             </TextBlock>
             <Button x:Name="BuildWebsite" Margin="10" Width="200">Build Website</Button>
             <Button x:Name="LaunchWebsite" Margin="10" Width="200">Launch Website</Button>

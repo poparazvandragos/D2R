@@ -53,6 +53,8 @@ namespace D2RInventoryTool
             }
         }
 
+        private bool StopProcess = false;
+
         private bool useMultiMonitor = false;
         public bool UseMultiMonitor
         {
@@ -89,6 +91,7 @@ namespace D2RInventoryTool
             HotkeyManager.Current.AddOrReplace("AutoCapture", Key.Add, ModifierKeys.Control | ModifierKeys.Alt, AutoCapture);
             HotkeyManager.Current.AddOrReplace("CaptureScreenShot", Key.Subtract, ModifierKeys.Control | ModifierKeys.Alt, CaptureScreenShot);
             HotkeyManager.Current.AddOrReplace("ChangeCapture", Key.Multiply, ModifierKeys.Control | ModifierKeys.Alt, ChangeCapture);
+            HotkeyManager.Current.AddOrReplace("TriggerStopProcess", Key.Divide, ModifierKeys.Control | ModifierKeys.Alt, TriggerStopProcess);
 
             displays = new List<ComboBoxItem>();
             var screens = System.Windows.Forms.Screen.AllScreens;
@@ -108,6 +111,11 @@ namespace D2RInventoryTool
             CapturePlayer = !CaptureMerc;
         }
 
+        private void TriggerStopProcess(object sender, HotkeyEventArgs e)
+        {
+            StopProcess = true;
+        }
+
         private void LoadJSONSettings()
         {
             var jsonString = File.ReadAllText("settings.json");
@@ -116,9 +124,10 @@ namespace D2RInventoryTool
 
         private void CaptureScreenShot(object sender, HotkeyEventArgs e)
         {
+            var screen = MonitorID.Tag as System.Windows.Forms.Screen;
             try
             {
-                CaptureSS();
+                CaptureSS(screen);
             }
             catch (Exception ex)
             {
@@ -126,7 +135,8 @@ namespace D2RInventoryTool
             }
         }
 
-        private void CaptureSS()
+
+        private void CaptureSS(System.Windows.Forms.Screen screen)
         {
             if (string.IsNullOrWhiteSpace(CharacterName))
             {
@@ -134,7 +144,7 @@ namespace D2RInventoryTool
                 return;
             }
 
-            var screen = MonitorID.Tag as System.Windows.Forms.Screen;
+            
 
 
             var image = Screenshot.CaptureRegion(new Rect()
@@ -149,58 +159,78 @@ namespace D2RInventoryTool
             Directory.CreateDirectory(dirPath);
 
             var filePath = Path.Combine(dirPath, GetImageNameFromMousePosition());
-
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
-                BitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(image));
+                var encoder = new JpegBitmapEncoder();
+                encoder.QualityLevel = D2RHelper.settings["captureSpecs"]["quality"].Value<int>();
+                var frame = BitmapFrame.Create(image.Clone());
+                encoder.Frames.Add(frame);
                 encoder.Save(fileStream);
             }
         }
 
         private void AutoCapture(object sender, HotkeyEventArgs e)
         {
+            StopProcess = false;
+            var screen = MonitorID.Tag as System.Windows.Forms.Screen;
+
             if (string.IsNullOrWhiteSpace(CharacterName))
             {
                 MessageBox.Show("Character name is empty");
                 return;
             }
-
-            var captureWidth = D2RHelper.settings["captureSpecs"]["width"].Value<int>();
-            var captureHeight = D2RHelper.settings["captureSpecs"]["height"].Value<int>();
-
-            int cellSizeX = D2RHelper.settings["d2rScreenSpecs"]["cell"]["sizeX"].Value<int>();
-            int cellSizeY = D2RHelper.settings["d2rScreenSpecs"]["cell"]["sizeY"].Value<int>();
-
-            var specList = CaptureMerc ? D2RHelper.MercSpecs : D2RHelper.PlayerSpecs;
-
-            MouseUtils.SetMousePosition(new Point(captureWidth / 2, captureHeight / 2));
-            Thread.Sleep(100);
-            CaptureSS();
-
-            foreach (var spec in specList)
+            Task.Run(() =>
             {
-                if (spec == null) continue;
+                var captureWidth = D2RHelper.settings["captureSpecs"]["width"].Value<int>();
+                var captureHeight = D2RHelper.settings["captureSpecs"]["height"].Value<int>();
 
-                int specStartX = spec["start"]["x"].Value<int>();
-                int specStartY = spec["start"]["y"].Value<int>();
+                int cellSizeX = D2RHelper.settings["d2rScreenSpecs"]["cell"]["sizeX"].Value<int>();
+                int cellSizeY = D2RHelper.settings["d2rScreenSpecs"]["cell"]["sizeY"].Value<int>();
 
-                int specSizeX = spec["size"]["x"].Value<int>();
-                int specSizeY = spec["size"]["y"].Value<int>();
+                var specList = CaptureMerc ? D2RHelper.MercSpecs : D2RHelper.PlayerSpecs;
 
-                for (int invX = 0; invX < specSizeX; invX++)
-                    for (int invY = 0; invY < specSizeY; invY++)
-                    {
-                        var cellStartX = specStartX + invX * cellSizeX + invX;
-                        var cellStartY = specStartY + invY * cellSizeY + invY;
+                MouseUtils.SetMousePosition(new Point(captureWidth / 2, captureHeight / 2));
+                Thread.Sleep(100);
+                try
+                {
+                    CaptureSS(screen);
+                }
+                catch { }
 
-                        Point mousePos = new Point(cellStartX + cellSizeX / 2, cellStartY + cellSizeY / 2);
-                        //Trace.WriteLine(mousePos);
-                        MouseUtils.SetMousePosition(mousePos);
-                        Thread.Sleep(100);
-                        CaptureSS();
-                    }
-            }
+                foreach (var spec in specList)
+                {
+                    if (spec == null) continue;
+
+                    int specStartX = spec["start"]["x"].Value<int>();
+                    int specStartY = spec["start"]["y"].Value<int>();
+
+                    int specSizeX = spec["size"]["x"].Value<int>();
+                    int specSizeY = spec["size"]["y"].Value<int>();
+
+                    for (int invX = 0; invX < specSizeX; invX++)
+                        for (int invY = 0; invY < specSizeY; invY++)
+                        {
+                            if (StopProcess)
+                            {
+                                return;
+                            }
+                            var cellStartX = specStartX + invX * cellSizeX + invX;
+                            var cellStartY = specStartY + invY * cellSizeY + invY;
+
+                            Point mousePos = new Point(cellStartX + cellSizeX / 2, cellStartY + cellSizeY / 2);
+                            //Trace.WriteLine(mousePos);
+                            MouseUtils.SetMousePosition(mousePos);
+                            Thread.Sleep(100);
+                            try
+                            {
+                                CaptureSS(screen);
+                            }
+                            catch {
+                                invY--;
+                            }
+                        }
+                }
+            });
         }
 
         public string GetImageNameFromMousePosition()
@@ -212,8 +242,6 @@ namespace D2RInventoryTool
             {
                 throw new InvalidDataException(mousePosition.ToString());
             }
-
-
 
             var captureWidth = D2RHelper.settings["captureSpecs"]["width"].Value<int>();
             var captureHeight = D2RHelper.settings["captureSpecs"]["height"].Value<int>();
@@ -248,11 +276,11 @@ namespace D2RInventoryTool
                             bool addCellIdxToImg = spec["addCellIdxToImg"].Value<bool>();
                             if (addCellIdxToImg)
                             {
-                                imgName = spec["imgName"].Value<string>() + "" + invX + "" + invY + ".png";
+                                imgName = spec["imgName"].Value<string>() + "" + invX + "" + invY + ".jpg";
                             }
                             else
                             {
-                                imgName = spec["imgName"].Value<string>() + ".png";
+                                imgName = spec["imgName"].Value<string>() + ".jpg";
                             }
                             //Trace.WriteLine("MousePosition: " + mousePosition.ToString());
                             //Trace.WriteLine("ImgName: " + imgName);
@@ -262,8 +290,8 @@ namespace D2RInventoryTool
             }
 
             imgName = CaptureMerc ?
-                D2RHelper.settings["screenSpecs"]["mercBackground"].Value<string>() + ".png" :
-                D2RHelper.settings["screenSpecs"]["playerBackground"].Value<string>() + ".png";
+                D2RHelper.settings["screenSpecs"]["mercBackground"].Value<string>() + ".jpg" :
+                D2RHelper.settings["screenSpecs"]["playerBackground"].Value<string>() + ".jpg";
             //Trace.WriteLine("MousePosition: " + mousePosition.ToString());
             //Trace.WriteLine("ImgName: " + imgName);
             return imgName;

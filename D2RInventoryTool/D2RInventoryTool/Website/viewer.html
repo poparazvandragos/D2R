@@ -1,17 +1,18 @@
-<html>
-<script lang="js" src="viewer.js"></script>
-
-<body>
+<!DOCTYPE html>
+<html characterencoding="UTF-8">
+<head>
+    <script lang="js" src="viewer.js"></script>
+</head>
+<body id="body">
     <div id="loadingDiv">
         <span style="display: inline-block;height: 100%;vertical-align: middle;"></span>
         <img src="loading/loading.gif" style="margin: auto;width: 100px;height: 100px;vertical-align: middle; "
-            alt="Loading..." />
+             alt="Loading..." />
     </div>
-    <img src="img/s00.png" style="display:none" id="background" />
+    <img src="img/background.jpg" style="display:none" id="background" />
     <div id="imagesContainer" style="display:none">
     </div>
-    <canvas style="background: red; width:1280;height: 720px;border:1px solid #000000;" id="gameCanvas">
-    </canvas>
+    <canvas style="background: red; width:1280px;height: 720px;border:1px solid #000000;" id="gameCanvas"></canvas>
     <br>
     <span>Show mercenary items:</span>
     <input type="checkbox" id="showMercItemsCheckBox" onchange="changeShowMercItems()" />
@@ -19,5 +20,4 @@
     <span>Draw slots grid boxes:</span>
     <input type="checkbox" id="drawGridCheckBox" onchange="changeDrawGrid()" />
 </body>
-
 </html>

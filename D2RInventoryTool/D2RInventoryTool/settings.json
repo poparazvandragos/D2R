@@ -11,7 +11,8 @@
   },
   "captureSpecs": {
     "width": 1920,
-    "height": 1080
+    "height": 1080,
+    "quality": 50
   },
   "d2rScreenSpecs": {
     "cell": {

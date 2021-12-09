@@ -220,7 +220,7 @@ changeBkImage = function (elementId, force) {
     imgId = "background";
     screenSpecs.changeBkImageLastElementId = elementId;
 
-    var newSrc = "img/" + elementId + ".png";
+    var newSrc = "img/" + elementId + ".jpg";
     var img = document.getElementById(imgId);
     img.setAttribute("src", newSrc);
 
@@ -333,10 +333,10 @@ addSpecImages = function () {
         for (var invX = 0; invX < crtSpec.size.x; invX++)
             for (var invY = 0; invY < crtSpec.size.y; invY++) {
                 var imgid = crtSpec.imgName;
-                var imgsrc = imgid + ".png";
+                var imgsrc = imgid + ".jpg";
                 if (crtSpec.addCellIdxToImg) {
                     imgid = crtSpec.imgName + "" + invX + "" + invY;
-                    imgsrc = imgid + ".png";
+                    imgsrc = imgid + ".jpg";
                 }
 
                 if (lastImgId != imgid)
