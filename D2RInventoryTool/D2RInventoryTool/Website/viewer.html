@@ -1,0 +1,23 @@
+<html>
+<script lang="js" src="viewer.js"></script>
+
+<body>
+    <div id="loadingDiv">
+        <span style="display: inline-block;height: 100%;vertical-align: middle;"></span>
+        <img src="loading/loading.gif" style="margin: auto;width: 100px;height: 100px;vertical-align: middle; "
+            alt="Loading..." />
+    </div>
+    <img src="img/s00.png" style="display:none" id="background" />
+    <div id="imagesContainer" style="display:none">
+    </div>
+    <canvas style="background: red; width:1280;height: 720px;border:1px solid #000000;" id="gameCanvas">
+    </canvas>
+    <br>
+    <span>Show mercenary items:</span>
+    <input type="checkbox" id="showMercItemsCheckBox" onchange="changeShowMercItems()" />
+    <br>
+    <span>Draw slots grid boxes:</span>
+    <input type="checkbox" id="drawGridCheckBox" onchange="changeDrawGrid()" />
+</body>
+
+</html>

@@ -1,0 +1,225 @@
+{
+  "screenSpecs": {
+    "width": 1280,
+    "height": 720,
+    "drawGrid": true,
+    "gridColor": "#FF0000",
+    "showMercItems": false,
+    "playerBackground": "background",
+    "mercBackground": "merc",
+    "changeBkImageLastElementId": "background"
+  },
+  "captureSpecs": {
+    "width": 1920,
+    "height": 1080
+  },
+  "d2rScreenSpecs": {
+    "cell": {
+      "sizeX": 48,
+      "sizeY": 48
+    },
+    "inventory": {
+      "start": {
+        "x": 1268,
+        "y": 553
+      },
+      "size": {
+        "x": 10,
+        "y": 4
+      },
+      "imgName": "inventory",
+      "addCellIdxToImg": true
+
+    },
+    "stash": {
+      "start": {
+        "x": 164,
+
+        "y": 222
+
+      },
+      "size": {
+        "x": 10,
+        "y": 10
+      },
+      "imgName": "s",
+      "addCellIdxToImg": true
+    },
+    "equipment": {
+      "head": {
+        "start": {
+          "x": 1464,
+
+          "y": 197
+        },
+        "size": {
+          "x": 2,
+          "y": 2
+        },
+        "imgName": "head",
+        "addCellIdxToImg": false
+      },
+      "armor": {
+        "start": {
+          "x": 1464,
+
+          "y": 318
+        },
+        "size": {
+          "x": 2,
+          "y": 3
+        },
+        "imgName": "armor",
+        "addCellIdxToImg": false
+      },
+
+      "belt": {
+        "start": {
+          "x": 1464,
+          "y": 489
+        },
+        "size": {
+          "x": 2,
+          "y": 1
+        },
+        "imgName": "belt",
+        "addCellIdxToImg": false
+      },
+      "amulet": {
+        "start": {
+          "x": 1583,
+          "y": 281
+        },
+        "size": {
+          "x": 1,
+          "y": 1
+        },
+        "imgName": "amulet",
+        "addCellIdxToImg": false
+      },
+      "ring1": {
+        "start": {
+          "x": 1395,
+          "y": 489
+        },
+        "size": {
+          "x": 1,
+          "y": 1
+        },
+        "imgName": "ring1",
+        "addCellIdxToImg": false
+      },
+      "ring2": {
+        "start": {
+          "x": 1583,
+          "y": 489
+        },
+        "size": {
+          "x": 1,
+          "y": 1
+        },
+        "imgName": "ring2",
+        "addCellIdxToImg": false
+      },
+      "gloves": {
+        "start": {
+          "x": 1277,
+          "y": 440
+        },
+        "size": {
+          "x": 2,
+          "y": 2
+        },
+        "imgName": "gloves",
+        "addCellIdxToImg": false
+      },
+      "boots": {
+        "start": {
+          "x": 1653,
+          "y": 440
+        },
+        "size": {
+          "x": 2,
+          "y": 2
+        },
+        "imgName": "boots",
+        "addCellIdxToImg": false
+      },
+      "weapon": {
+        "start": {
+          "x": 1278,
+          "y": 222
+        },
+        "size": {
+          "x": 2,
+          "y": 4
+        },
+        "imgName": "weapon",
+        "addCellIdxToImg": false
+      },
+      "shield": {
+        "start": {
+          "x": 1653,
+          "y": 222
+
+        },
+        "size": {
+          "x": 2,
+          "y": 4
+        },
+        "imgName": "shield",
+        "addCellIdxToImg": false
+      }
+    },
+    "merc": {
+      "head": {
+        "start": {
+          "x": 360,
+          "y": 197
+        },
+        "size": {
+          "x": 2,
+          "y": 2
+        },
+        "imgName": "merchead",
+        "addCellIdxToImg": false
+      },
+      "armor": {
+        "start": {
+          "x": 360,
+          "y": 318
+        },
+        "size": {
+          "x": 2,
+          "y": 3
+        },
+        "imgName": "mercarmor",
+        "addCellIdxToImg": false
+      },
+      "weapon": {
+        "start": {
+          "x": 172,
+          "y": 272
+        },
+        "size": {
+          "x": 2,
+          "y": 4
+        },
+        "imgName": "mercweapon",
+        "addCellIdxToImg": false
+      },
+      "shield": {
+        "start": {
+          "x": 549,
+          "y": 272
+        },
+        "size": {
+          "x": 2,
+          "y": 4
+        },
+        "imgName": "mercshield",
+        "addCellIdxToImg": false
+      }
+    }
+  }
+}

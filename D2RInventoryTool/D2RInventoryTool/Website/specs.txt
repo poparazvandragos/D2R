@@ -1,0 +1,28 @@
+d2r 
+
+Stash
+grid start 160x220
+grid cell 48x48 - margin 1 1 0 0
+grid size 10x10
+
+img enc = s00 - s99
+
+Inventory
+grid start 1268x553
+grid cell 48x48 - margin 1 1 0 0
+grid size 10x4
+
+img enc = i00-i93
+
+Equiped items
+Cap - s:1464x197 c:97x97 cs 2x2 
+Armor - s:1464x318 c:97x147 cs 2x3 
+Belt - s:1464x489 c:97x48 cs 1x2 
+Amulet - s:1583x281 c:48x48 cs 1x1 
+Ring1 - s:1395x489 c:48x48 cs 1x1 
+Ring2 - s:1583x489 c:48x48 cs 1x1 
+Gloves - s:1277x440 c:97x97 cs 2x2
+Boots - s:1653x440 c:97x97 cs 2x2
+Weapon - s:1278x222 c:97x194 cs 2x4
+Shield - s:1653x222 c:97x194 cs 2x4
+
